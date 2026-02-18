@@ -1,12 +1,12 @@
 from typing import Dict, Type, Optional
 from pathlib import Path
 
-from app.core.ocr_engines.base_engine import BaseOCREngine
-from app.core.ocr_engines.tesseract_engine import TesseractEngine
-from app.core.ocr_engines.easyocr_engine import EasyOCREngine
-from app.core.ocr_engines.paddle_engine import PaddleOCREngine
-from app.config import get_logger, settings
-from app.utils.exceptions import OCREngineNotFoundError
+from backend.app.core.ocr_engines.base_engine import BaseOCREngine
+from backend.app.core.ocr_engines.tesseract_engine import TesseractEngine
+from backend.app.core.ocr_engines.easyocr_engine import EasyOCREngine
+from backend.app.core.ocr_engines.paddle_engine import PaddleOCREngine
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import OCREngineNotFoundError
 
 logger = get_logger(__name__)
 

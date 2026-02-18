@@ -7,9 +7,9 @@ from PIL import Image
 import subprocess
 import re
 
-from app.core.ocr_engines.base_engine import BaseOCREngine
-from app.config import get_logger, settings
-from app.utils.exceptions import (
+from backend.app.core.ocr_engines.base_engine import BaseOCREngine
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import (
     OCRProcessingError,
     OCREngineNotFoundError,
     ImageLoadError

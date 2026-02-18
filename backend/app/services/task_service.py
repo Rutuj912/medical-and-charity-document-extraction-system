@@ -3,8 +3,8 @@ from pathlib import Path
 from datetime import datetime
 import json
 
-from app.config import get_logger, settings
-from app.utils.exceptions import TaskException, TaskNotFoundError, TaskCreationError
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import TaskException, TaskNotFoundError, TaskCreationError
 
 logger = get_logger(__name__)
 

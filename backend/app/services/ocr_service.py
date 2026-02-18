@@ -2,16 +2,16 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 import asyncio
 
-from app.config import get_logger, settings
-from app.utils.exceptions import (
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import (
     OCRException,
     OCRProcessingError,
     OCRNoTextFoundError
 )
-from app.services.pdf_service import PDFService
-from app.services.preprocessing_service import PreprocessingService
-from app.core.ocr_engines import OCREngineFactory, create_ocr_engine
-from app.utils.file_utils import load_image, ensure_directory
+from backend.app.services.pdf_service import PDFService
+from backend.app.services.preprocessing_service import PreprocessingService
+from backend.app.core.ocr_engines import OCREngineFactory, create_ocr_engine
+from backend.app.utils.file_utils import load_image, ensure_directory
 
 logger = get_logger(__name__)
 
@@ -26,8 +26,7 @@ class OCRService:
         self._engine_cache = {}
 
         self.logger.info(
-            "OCR Service initialized",
-            default_engine=self.default_engine
+            f"OCR Service initialized | default_engine={self.default_engine}"
         )
 
     async def process_pdf(
@@ -42,10 +41,8 @@ class OCRService:
     ) -> Dict[str, Any]:
 
         self.logger.info(
-            "Processing PDF through OCR pipeline",
-            pdf_path=str(pdf_path),
-            engine=engine or self.default_engine,
-            preprocess=preprocess
+            f"Processing PDF | path={pdf_path} | "
+            f"engine={engine or self.default_engine} | preprocess={preprocess}"
         )
 
         try:
@@ -84,7 +81,7 @@ class OCRService:
             self.logger.info(f"Converted to {len(image_paths)} images")
 
             if preprocess:
-                self.logger.info(f"Preprocessing images (type: {document_type})")
+                self.logger.info(f"Preprocessing images | type={document_type}")
                 processed_paths = []
 
                 for img_path in image_paths:
@@ -112,19 +109,16 @@ class OCRService:
             )
 
             self.logger.info(
-                "PDF OCR processing completed",
-                pages=len(ocr_results),
-                total_characters=result['total_characters'],
-                avg_confidence=result['average_confidence']
+                f"PDF OCR completed | pages={len(ocr_results)} | "
+                f"chars={result['total_characters']} | "
+                f"avg_conf={result['average_confidence']}"
             )
 
             return result
 
         except Exception as e:
             self.logger.error(
-                "PDF OCR processing failed",
-                pdf_path=str(pdf_path),
-                error=str(e),
+                f"PDF OCR failed | path={pdf_path} | error={str(e)}",
                 exc_info=True
             )
             raise OCRProcessingError(
@@ -144,49 +138,30 @@ class OCRService:
     ) -> List[Dict[str, Any]]:
 
         self.logger.info(
-            f"Processing {len(image_paths)} images through OCR",
-            engine=engine or self.default_engine,
-            language=language,
-            parallel=parallel
+            f"Processing {len(image_paths)} images | "
+            f"engine={engine or self.default_engine} | "
+            f"language={language} | parallel={parallel}"
         )
 
         try:
             ocr_engine = await self._get_engine(engine, language)
-
             results = []
 
-            if parallel and len(image_paths) > 1:
-                tasks = [
-                    self.process_single_image(img_path, engine, language)
-                    for img_path in image_paths
-                ]
-                results = await asyncio.gather(*tasks, return_exceptions=True)
+            for i, image_path in enumerate(image_paths, 1):
+                self.logger.debug(f"Processing image {i}/{len(image_paths)}")
 
-                for i, result in enumerate(results):
-                    if isinstance(result, Exception):
-                        self.logger.error(
-                            f"Failed to process image {i+1}: {result}"
-                        )
-                        results[i] = self._create_error_result(
-                            image_paths[i],
-                            str(result)
-                        )
-            else:
-                for i, image_path in enumerate(image_paths, 1):
-                    self.logger.debug(f"Processing image {i}/{len(image_paths)}")
-
-                    try:
-                        result = await ocr_engine.process_image_file(image_path)
-                        result['image_path'] = str(image_path)
-                        result['page_number'] = i
-                        results.append(result)
-                    except Exception as e:
-                        self.logger.error(
-                            f"Failed to process {image_path}: {e}"
-                        )
-                        results.append(
-                            self._create_error_result(image_path, str(e))
-                        )
+                try:
+                    result = await ocr_engine.process_image_file(image_path)
+                    result['image_path'] = str(image_path)
+                    result['page_number'] = i
+                    results.append(result)
+                except Exception as e:
+                    self.logger.error(
+                        f"Failed to process {image_path} | error={e}"
+                    )
+                    results.append(
+                        self._create_error_result(image_path, str(e))
+                    )
 
             self.logger.info(
                 f"OCR processing completed for {len(results)} images"
@@ -196,8 +171,7 @@ class OCRService:
 
         except Exception as e:
             self.logger.error(
-                "Batch OCR processing failed",
-                error=str(e),
+                f"Batch OCR failed | error={str(e)}",
                 exc_info=True
             )
             raise OCRProcessingError(
@@ -207,125 +181,6 @@ class OCRService:
                     "error": str(e)
                 }
             )
-
-    async def process_single_image(
-        self,
-        image_path: Path,
-        engine: Optional[str] = None,
-        language: str = "eng",
-        preprocess: bool = False,
-        document_type: str = "general"
-    ) -> Dict[str, Any]:
-
-        self.logger.info(
-            f"Processing single image: {image_path}",
-            engine=engine or self.default_engine,
-            preprocess=preprocess
-        )
-
-        try:
-            if preprocess:
-                image_path = await self.preprocessing_service.preprocess_for_ocr(
-                    image_path,
-                    document_type=document_type
-                )
-
-            ocr_engine = await self._get_engine(engine, language)
-
-            result = await ocr_engine.process_image_file(image_path)
-            result['image_path'] = str(image_path)
-
-            self.logger.info(
-                f"Image processed - confidence: {result['confidence']:.2f}%"
-            )
-
-            return result
-
-        except Exception as e:
-            self.logger.error(
-                f"Failed to process image: {e}",
-                exc_info=True
-            )
-            raise OCRProcessingError(
-                message=f"Failed to process image: {str(e)}",
-                details={
-                    "image_path": str(image_path),
-                    "error": str(e)
-                }
-            )
-
-    async def process_pdf_batch(
-        self,
-        pdf_paths: List[Path],
-        merge_pdfs: bool = True,
-        **options
-    ) -> Dict[str, Any]:
-
-        self.logger.info(
-            f"Processing {len(pdf_paths)} PDFs",
-            merge_pdfs=merge_pdfs
-        )
-
-        try:
-            if merge_pdfs and len(pdf_paths) > 1:
-                merged_dir = settings.get_absolute_path(settings.MERGED_PDF_DIR)
-                ensure_directory(merged_dir)
-
-                merged_path = merged_dir / f"merged_{Path(pdf_paths[0]).stem}.pdf"
-
-                self.logger.info("Merging PDFs")
-                merged_path = await self.pdf_service.merge_pdfs(
-                    pdf_paths,
-                    merged_path
-                )
-
-                return await self.process_pdf(merged_path, **options)
-            else:
-                results = []
-                for pdf_path in pdf_paths:
-                    result = await self.process_pdf(pdf_path, **options)
-                    results.append(result)
-
-                return self._combine_batch_results(results)
-
-        except Exception as e:
-            self.logger.error(
-                "Batch PDF processing failed",
-                error=str(e),
-                exc_info=True
-            )
-            raise OCRProcessingError(
-                message=f"Failed to process PDF batch: {str(e)}",
-                details={
-                    "pdf_count": len(pdf_paths),
-                    "error": str(e)
-                }
-            )
-
-    async def validate_ocr_engine(
-        self,
-        engine: str
-    ) -> bool:
-
-        try:
-            test_engine = await self._get_engine(engine, "eng")
-            return await test_engine.is_available()
-        except Exception as e:
-            self.logger.error(f"Engine validation failed: {e}")
-            return False
-
-    async def get_available_engines(self) -> Dict[str, bool]:
-
-        self.logger.info("Checking available OCR engines")
-
-        available = await OCREngineFactory.get_available_engines()
-
-        self.logger.info(
-            f"Available engines: {sum(available.values())}/{len(available)}",
-            engines=available
-        )
-
-        return available
 
     async def _get_engine(
         self,
@@ -354,9 +209,8 @@ class OCRService:
     ) -> Dict[str, Any]:
 
         full_text = "\n\n".join(
-            f"--- Page {i+1} ---\n{result['text']}"
+            f"--- Page {i+1} ---\n{result.get('text','')}"
             for i, result in enumerate(page_results)
-            if result.get('text')
         )
 
         total_chars = sum(
@@ -391,19 +245,6 @@ class OCRService:
             "language": page_results[0].get('language') if page_results else None
         }
 
-    def _combine_batch_results(
-        self,
-        results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
-
-        return {
-            "batch_size": len(results),
-            "total_pages": sum(r.get('page_count', 0) for r in results),
-            "total_characters": sum(r.get('total_characters', 0) for r in results),
-            "average_confidence": sum(r.get('average_confidence', 0) for r in results) / len(results) if results else 0.0,
-            "documents": results
-        }
-
     def _create_error_result(
         self,
         image_path: Path,
@@ -418,14 +259,4 @@ class OCRService:
             "character_count": 0,
             "error": error_message,
             "success": False
-        }
-
-    def get_service_info(self) -> Dict[str, Any]:
-
-        return {
-            "default_engine": self.default_engine,
-            "preprocessing_enabled": settings.ENABLE_PREPROCESSING,
-            "default_dpi": settings.DPI_CONVERSION,
-            "supported_languages": settings.OCR_LANGUAGE.split('+'),
-            "cached_engines": list(self._engine_cache.keys())
         }

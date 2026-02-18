@@ -8,8 +8,8 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from app.config import get_logger, settings
-from app.utils.exceptions import (
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import (
     FileException,
     FileReadError,
     FileWriteError,

@@ -3,7 +3,7 @@ from typing import Dict, Any, List, Optional
 from pathlib import Path
 import numpy as np
 
-from app.config import get_logger
+from backend.app.config import get_logger
 
 logger = get_logger(__name__)
 

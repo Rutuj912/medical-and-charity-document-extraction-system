@@ -2,10 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from app.config import settings, get_logger
-from app.api.routes import ocr_routes, health_routes
-from app.middleware.error_handler import add_exception_handlers
-from app.middleware.request_logger import RequestLoggingMiddleware
+from backend.app.config import settings, get_logger
+from backend.app.api.routes import ocr_routes, health_routes
+from backend.app.middleware.error_handler import add_exception_handlers
+from backend.app.middleware.request_logger import RequestLoggingMiddleware
 
 
 logger = get_logger(__name__)

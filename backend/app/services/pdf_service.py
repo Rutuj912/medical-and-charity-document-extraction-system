@@ -5,8 +5,8 @@ import io
 from PIL import Image
 import numpy as np
 
-from app.config import get_logger, settings
-from app.utils.exceptions import (
+from backend.app.config import get_logger, settings
+from backend.app.utils.exceptions import (
     PDFException,
     PDFMergeError,
     PDFConversionError,
@@ -14,7 +14,7 @@ from app.utils.exceptions import (
     PDFPasswordProtectedError,
     PDFEmptyError
 )
-from app.utils.file_utils import ensure_directory, save_image
+from backend.app.utils.file_utils import ensure_directory, save_image
 
 logger = get_logger(__name__)
 
