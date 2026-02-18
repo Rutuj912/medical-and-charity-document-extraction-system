@@ -9,8 +9,8 @@ import numpy as np
 backend_path = Path(__file__).parent.parent / 'backend'
 sys.path.insert(0, str(backend_path))
 
-from app.services.ocr_service import OCRService
-from app.utils.file_utils import save_image, ensure_directory
+from backend.app.services.ocr_service import OCRService
+from backend.app.utils.file_utils import save_image, ensure_directory
 
 
 def create_test_pdf_with_text(output_path: Path, text_content: str):

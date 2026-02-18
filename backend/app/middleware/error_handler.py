@@ -3,8 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.config import get_logger
-from app.utils.exceptions import (
+from backend.app.config import get_logger
+from backend.app.utils.exceptions import (
     OCRSystemException,
     APIException,
     handle_exception
@@ -14,17 +14,21 @@ logger = get_logger(__name__)
 
 
 def add_exception_handlers(app: FastAPI) -> None:
+
     @app.exception_handler(OCRSystemException)
     async def ocr_system_exception_handler(
         request: Request,
         exc: OCRSystemException
     ) -> JSONResponse:
+
         logger.error(
-            f"OCR System Exception: {exc.message}",
-            error_code=exc.error_code,
-            details=exc.details,
-            path=request.url.path,
-            method=request.method
+            f"OCR System Exception | "
+            f"message={exc.message} | "
+            f"error_code={exc.error_code} | "
+            f"details={exc.details} | "
+            f"path={request.url.path} | "
+            f"method={request.method}",
+            exc_info=True
         )
 
         status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -41,11 +45,13 @@ def add_exception_handlers(app: FastAPI) -> None:
         request: Request,
         exc: StarletteHTTPException
     ) -> JSONResponse:
+
         logger.warning(
-            f"HTTP Exception: {exc.detail}",
-            status_code=exc.status_code,
-            path=request.url.path,
-            method=request.method
+            f"HTTP Exception | "
+            f"status_code={exc.status_code} | "
+            f"detail={exc.detail} | "
+            f"path={request.url.path} | "
+            f"method={request.method}"
         )
 
         return JSONResponse(
@@ -62,11 +68,12 @@ def add_exception_handlers(app: FastAPI) -> None:
         request: Request,
         exc: RequestValidationError
     ) -> JSONResponse:
+
         logger.warning(
-            "Request Validation Error",
-            errors=exc.errors(),
-            path=request.url.path,
-            method=request.method
+            f"Validation Error | "
+            f"errors={exc.errors()} | "
+            f"path={request.url.path} | "
+            f"method={request.method}"
         )
 
         return JSONResponse(
@@ -83,10 +90,14 @@ def add_exception_handlers(app: FastAPI) -> None:
         request: Request,
         exc: Exception
     ) -> JSONResponse:
+
         logger.error(
-            f"Unhandled exception | "
+            f"Unhandled Exception | "
             f"type={type(exc).__name__} | "
-            f"error={str(exc)}"
+            f"error={str(exc)} | "
+            f"path={request.url.path} | "
+            f"method={request.method}",
+            exc_info=True
         )
 
         return JSONResponse(
@@ -94,6 +105,6 @@ def add_exception_handlers(app: FastAPI) -> None:
             content={
                 "error": "InternalServerError",
                 "message": "An unexpected error occurred",
-                "details": str(exc) if logger.level == "DEBUG" else {}
+                "details": str(exc)
             }
         )

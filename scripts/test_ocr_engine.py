@@ -9,10 +9,10 @@ import numpy as np
 backend_path = Path(__file__).parent.parent / 'backend'
 sys.path.insert(0, str(backend_path))
 
-from app.core.ocr_engines.engine_factory import OCREngineFactory
-from app.core.ocr_engines.tesseract_engine import TesseractEngine
-from app.utils.file_utils import save_image, load_image
-from app.config import settings
+from backend.app.core.ocr_engines.engine_factory import OCREngineFactory
+from backend.app.core.ocr_engines.tesseract_engine import TesseractEngine
+from backend.app.utils.file_utils import save_image, load_image
+from backend.app.config import settings
 
 
 def create_sample_image(text: str = "Hello OCR!", output_path: Path = None) -> Path:

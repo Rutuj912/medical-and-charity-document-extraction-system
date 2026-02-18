@@ -11,13 +11,13 @@ def test_imports():
     print("=" * 60)
 
     try:
-        from app.config import settings
+        from backend.app.config import settings
         print("✓ Settings imported successfully")
 
-        from app.config import get_logger, log_info
+        from backend.app.config import get_logger, log_info
         print("✓ Logging imported successfully")
 
-        from app.utils import exceptions
+        from backend.app.utils import exceptions
         print("✓ Exceptions imported successfully")
 
         return True
@@ -32,7 +32,7 @@ def test_configuration():
     print("=" * 60)
 
     try:
-        from app.config import settings
+        from backend.app.config import settings
 
         print(f"✓ App Name: {settings.APP_NAME}")
         print(f"✓ Version: {settings.APP_VERSION}")
@@ -52,7 +52,7 @@ def test_logging():
     print("=" * 60)
 
     try:
-        from app.config import get_logger, log_info, log_error
+        from backend.app.config import get_logger, log_info, log_error
 
         logger = get_logger("test")
         logger.info("Test log message")
@@ -76,7 +76,7 @@ def test_exceptions():
     print("=" * 60)
 
     try:
-        from app.utils.exceptions import (
+        from backend.app.utils.exceptions import (
             InvalidFileTypeError,
             OCRProcessingError,
             BadRequestError
@@ -120,7 +120,7 @@ def test_storage_directories():
     print("=" * 60)
 
     try:
-        from app.config import settings
+        from backend.app.config import settings
 
         directories = [
             settings.UPLOAD_DIR,

@@ -113,7 +113,7 @@ print_info "Creating storage directories..."
 cd backend 2>/dev/null || true
 
 python3 -c "
-from app.config import settings
+from backend.app.config import settings
 settings.create_storage_directories()
 " 2>/dev/null || print_error "Could not create directories. Run manually: python3 backend/app/config/settings.py"
 

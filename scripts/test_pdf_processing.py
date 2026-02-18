@@ -8,8 +8,8 @@ import fitz
 backend_path = Path(__file__).parent.parent / 'backend'
 sys.path.insert(0, str(backend_path))
 
-from app.services.pdf_service import PDFService
-from app.utils.file_utils import ensure_directory
+from backend.app.services.pdf_service import PDFService
+from backend.app.utils.file_utils import ensure_directory
 
 
 def create_sample_pdf(output_path: Path, pages: int = 3, text_content: str = None):

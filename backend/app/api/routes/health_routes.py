@@ -2,7 +2,7 @@ from fastapi import APIRouter, status
 from datetime import datetime
 from typing import Dict, Any
 
-from app.config import settings, get_logger
+from backend.app.config import settings, get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)

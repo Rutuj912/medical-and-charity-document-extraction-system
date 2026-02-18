@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from typing import Tuple, Optional
 
-from app.config import get_logger
+from backend.app.config import get_logger
 
 logger = get_logger(__name__)
 

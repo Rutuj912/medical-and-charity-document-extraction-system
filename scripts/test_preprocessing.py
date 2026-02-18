@@ -9,14 +9,14 @@ import numpy as np
 backend_path = Path(__file__).parent.parent / 'backend'
 sys.path.insert(0, str(backend_path))
 
-from app.core.image_processors import (
+from backend.app.core.image_processors import (
     ImageEnhancer,
     ImageDenoiser,
     ImageDeskewer,
     ImageBinarizer
 )
-from app.services.preprocessing_service import PreprocessingService
-from app.utils.file_utils import save_image, load_image
+from backend.app.services.preprocessing_service import PreprocessingService
+from backend.app.utils.file_utils import save_image, load_image
 
 
 def create_test_image(noise_level: float = 0.05, skew_angle: float = 5.0):
