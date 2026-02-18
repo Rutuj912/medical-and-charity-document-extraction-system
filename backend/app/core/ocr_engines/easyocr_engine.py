@@ -27,9 +27,7 @@ class EasyOCREngine(BaseOCREngine):
             lang_codes = self._get_easyocr_languages()
 
             self.logger.info(
-                f"Initializing EasyOCR",
-                languages=lang_codes,
-                gpu=self.gpu
+                f"Initializing EasyOCR | languages={lang_codes} gpu={self.gpu}"
             )
 
             self.reader = easyocr.Reader(
@@ -45,7 +43,7 @@ class EasyOCREngine(BaseOCREngine):
             self.logger.error("EasyOCR not installed")
             return False
         except Exception as e:
-            self.logger.error(f"EasyOCR initialization failed: {e}", exc_info=True)
+            self.logger.error(f"EasyOCR initialization failed: {e}")
             return False
 
     async def is_available(self) -> bool:
@@ -114,15 +112,13 @@ class EasyOCREngine(BaseOCREngine):
             }
 
             self.logger.info(
-                f"EasyOCR processing completed",
-                confidence=avg_confidence,
-                words=word_count
+                f"EasyOCR processing completed | confidence={avg_confidence} words={word_count}"
             )
 
             return result
 
         except Exception as e:
-            self.logger.error(f"EasyOCR processing failed: {e}", exc_info=True)
+            self.logger.error(f"EasyOCR processing failed: {e}")
             raise RuntimeError(f"EasyOCR processing error: {str(e)}")
 
     async def process_image_file(self, image_path: Path) -> Dict[str, Any]:

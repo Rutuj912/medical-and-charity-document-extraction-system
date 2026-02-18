@@ -28,9 +28,7 @@ class PaddleOCREngine(BaseOCREngine):
             lang = self._get_paddle_language()
 
             self.logger.info(
-                f"Initializing PaddleOCR",
-                language=lang,
-                gpu=self.use_gpu
+                f"Initializing PaddleOCR | language={lang} gpu={self.use_gpu}"
             )
 
             self.ocr = PaddleOCR(
@@ -47,7 +45,7 @@ class PaddleOCREngine(BaseOCREngine):
             self.logger.error("PaddleOCR not installed")
             return False
         except Exception as e:
-            self.logger.error(f"PaddleOCR initialization failed: {e}", exc_info=True)
+            self.logger.error(f"PaddleOCR initialization failed: {e}")
             return False
 
     async def is_available(self) -> bool:
@@ -141,15 +139,13 @@ class PaddleOCREngine(BaseOCREngine):
             }
 
             self.logger.info(
-                f"PaddleOCR processing completed",
-                confidence=avg_confidence,
-                words=word_count
+                f"PaddleOCR processing completed | confidence={avg_confidence} words={word_count}"
             )
 
             return result
 
         except Exception as e:
-            self.logger.error(f"PaddleOCR processing failed: {e}", exc_info=True)
+            self.logger.error(f"PaddleOCR processing failed: {e}")
             raise RuntimeError(f"PaddleOCR processing error: {str(e)}")
 
     async def process_image_file(self, image_path: Path) -> Dict[str, Any]:
