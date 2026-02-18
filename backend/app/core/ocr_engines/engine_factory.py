@@ -2,7 +2,8 @@ from typing import Dict, Type, Optional
 from pathlib import Path
 
 from backend.app.core.ocr_engines.base_engine import BaseOCREngine
-from backend.app.core.ocr_engines.tesseract_engine import TesseractEngine
+# ❌ REMOVE TESSERACT IMPORT
+# from backend.app.core.ocr_engines.tesseract_engine import TesseractEngine
 from backend.app.core.ocr_engines.easyocr_engine import EasyOCREngine
 from backend.app.core.ocr_engines.paddle_engine import PaddleOCREngine
 from backend.app.config import get_logger, settings
@@ -13,8 +14,8 @@ logger = get_logger(__name__)
 
 class OCREngineFactory:
 
+    # ❌ Removed tesseract completely
     _engines: Dict[str, Type[BaseOCREngine]] = {
-        "tesseract": TesseractEngine,
         "easyocr": EasyOCREngine,
         "paddle": PaddleOCREngine,
         "paddleocr": PaddleOCREngine,
@@ -27,25 +28,28 @@ class OCREngineFactory:
         language: str = "eng",
         **kwargs
     ) -> BaseOCREngine:
-        if engine_name is None:
-            engine_name = settings.DEFAULT_OCR_ENGINE
 
+        # ✅ Force default engine to easyocr if nothing passed
+        if engine_name is None:
+            engine_name = "easyocr"
 
         engine_name = engine_name.lower().strip()
 
         logger.info(
-            "Creating OCR engine",
-            engine=engine_name,
-            language=language
+            f"Creating OCR engine: {engine_name} (lang={language})"
         )
 
+        # ❌ If someone still tries tesseract, block it clearly
+        if engine_name == "tesseract":
+            raise OCREngineNotFoundError(
+                message="Tesseract is disabled. Use 'easyocr' or 'paddle'",
+                details={"requested_engine": engine_name}
+            )
 
         if engine_name not in cls._engines:
             available = list(cls._engines.keys())
             logger.error(
-                "OCR engine not found",
-                engine=engine_name,
-                available=available
+                f"OCR engine not found: {engine_name}. Available={available}"
             )
             raise OCREngineNotFoundError(
                 message=f"OCR engine '{engine_name}' not found",
@@ -55,24 +59,20 @@ class OCREngineFactory:
                 }
             )
 
-
         engine_class = cls._engines[engine_name]
-
 
         try:
             engine = engine_class(language=language, **kwargs)
+
             logger.info(
-                "OCR engine created successfully",
-                engine=engine_name,
-                engine_class=engine_class.__name__
+                f"OCR engine created successfully: {engine_name}"
             )
+
             return engine
 
         except Exception as e:
             logger.error(
-                "Failed to create OCR engine",
-                engine=engine_name,
-                error=str(e),
+                f"Failed to create OCR engine {engine_name}: {e}",
                 exc_info=True
             )
             raise OCREngineNotFoundError(
@@ -88,34 +88,23 @@ class OCREngineFactory:
         availability = {}
 
         for engine_name, engine_class in cls._engines.items():
-
-            if engine_name == "paddleocr":
-                continue
-
             try:
                 engine = engine_class(language="eng")
                 is_available = await engine.is_available()
                 availability[engine_name] = is_available
 
                 logger.debug(
-                    "Engine availability checked",
-                    engine=engine_name,
-                    available=is_available
+                    f"Engine availability: {engine_name} -> {is_available}"
                 )
 
             except Exception as e:
                 availability[engine_name] = False
                 logger.debug(
-                    "Engine not available",
-                    engine=engine_name,
-                    error=str(e)
+                    f"Engine not available: {engine_name}, error={e}"
                 )
 
         logger.info(
-            "OCR engines availability check complete",
-            available_count=sum(availability.values()),
-            total_count=len(availability),
-            engines=availability
+            f"Engine availability check complete: {availability}"
         )
 
         return availability
@@ -143,37 +132,8 @@ class OCREngineFactory:
             }
 
     @classmethod
-    def register_engine(
-        cls,
-        name: str,
-        engine_class: Type[BaseOCREngine]
-    ) -> None:
-        if not issubclass(engine_class, BaseOCREngine):
-            raise ValueError(
-                f"Engine class must inherit from BaseOCREngine"
-            )
-
-        name = name.lower().strip()
-        cls._engines[name] = engine_class
-
-        logger.info(
-            "Custom OCR engine registered",
-            engine_name=name,
-            engine_class=engine_class.__name__
-        )
-
-    @classmethod
     def list_engines(cls) -> list:
-        engines = []
-        seen_classes = set()
-
-        for name, engine_class in cls._engines.items():
-            if engine_class not in seen_classes:
-                engines.append(name)
-                seen_classes.add(engine_class)
-
-        return sorted(engines)
-
+        return sorted(list(cls._engines.keys()))
 
 
 def create_ocr_engine(
@@ -182,40 +142,3 @@ def create_ocr_engine(
     **kwargs
 ) -> BaseOCREngine:
     return OCREngineFactory.create_engine(engine_name, language, **kwargs)
-
-
-if __name__ == "__main__":
-    import asyncio
-
-    async def test_factory():
-        print("=" * 60)
-        print("OCR Engine Factory Test")
-        print("=" * 60)
-
-
-        print("\n1. Registered Engines:")
-        engines = OCREngineFactory.list_engines()
-        for engine in engines:
-            print(f"   - {engine}")
-
-
-        print("\n2. Checking Engine Availability...")
-        available = await OCREngineFactory.get_available_engines()
-        for engine, status in available.items():
-            status_text = "✓ Available" if status else "✗ Not Available"
-            print(f"   {engine}: {status_text}")
-
-
-        print("\n3. Creating Default Engine...")
-        try:
-            engine = OCREngineFactory.create_engine()
-            info = engine.get_engine_info()
-            print(f"   Created: {info['name']}")
-            print(f"   Status: {info.get('status', 'unknown')}")
-        except Exception as e:
-            print(f"   Error: {e}")
-
-        print("\n" + "=" * 60)
-        print("Factory test complete!")
-
-    asyncio.run(test_factory())
