@@ -2,6 +2,7 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 import asyncio
 
+from backend.app.utils.json_utils import save_ocr_json
 from backend.app.config import get_logger, settings
 from backend.app.utils.exceptions import (
     OCRException,
@@ -52,15 +53,10 @@ class OCRService:
 
             is_scanned = await self.pdf_service.is_pdf_scanned(pdf_path)
 
-            self.logger.info(
-                f"PDF type detected: {'scanned' if is_scanned else 'text-based'}"
-            )
-
             if not is_scanned:
-                self.logger.info("Extracting text directly from PDF")
                 text_result = await self.pdf_service.extract_text_from_pdf(pdf_path)
 
-                return {
+                final_result = {
                     "pdf_path": str(pdf_path),
                     "is_scanned": False,
                     "processing_method": "direct_text_extraction",
@@ -71,31 +67,32 @@ class OCRService:
                     "confidence": 100.0
                 }
 
-            self.logger.info("Converting PDF to images")
+                # ✅ SAVE JSON
+                json_path = save_ocr_json(final_result, pdf_path.stem)
+
+                return {
+                    "message": "PDF text extracted successfully",
+                    "json_path": json_path,
+                    "data": final_result
+                }
+
             image_paths = await self.pdf_service.convert_pdf_to_images(
                 pdf_path,
                 output_dir,
                 dpi=settings.DPI_CONVERSION
             )
 
-            self.logger.info(f"Converted to {len(image_paths)} images")
-
             if preprocess:
-                self.logger.info(f"Preprocessing images | type={document_type}")
                 processed_paths = []
-
                 for img_path in image_paths:
                     processed_path = await self.preprocessing_service.preprocess_for_ocr(
                         img_path,
                         document_type=document_type
                     )
                     processed_paths.append(processed_path)
-
-                self.logger.info(f"Preprocessed {len(processed_paths)} images")
             else:
                 processed_paths = image_paths
 
-            self.logger.info("Running OCR on images")
             ocr_results = await self.process_images(
                 processed_paths,
                 engine=engine,
@@ -108,13 +105,14 @@ class OCRService:
                 is_scanned=True
             )
 
-            self.logger.info(
-                f"PDF OCR completed | pages={len(ocr_results)} | "
-                f"chars={result['total_characters']} | "
-                f"avg_conf={result['average_confidence']}"
-            )
+            # ✅ SAVE JSON HERE
+            json_path = save_ocr_json(result, pdf_path.stem)
 
-            return result
+            return {
+                "message": "OCR completed successfully",
+                "json_path": json_path,
+                "data": result
+            }
 
         except Exception as e:
             self.logger.error(
@@ -148,32 +146,19 @@ class OCRService:
             results = []
 
             for i, image_path in enumerate(image_paths, 1):
-                self.logger.debug(f"Processing image {i}/{len(image_paths)}")
-
                 try:
                     result = await ocr_engine.process_image_file(image_path)
                     result['image_path'] = str(image_path)
                     result['page_number'] = i
                     results.append(result)
                 except Exception as e:
-                    self.logger.error(
-                        f"Failed to process {image_path} | error={e}"
-                    )
                     results.append(
                         self._create_error_result(image_path, str(e))
                     )
 
-            self.logger.info(
-                f"OCR processing completed for {len(results)} images"
-            )
-
             return results
 
         except Exception as e:
-            self.logger.error(
-                f"Batch OCR failed | error={str(e)}",
-                exc_info=True
-            )
             raise OCRProcessingError(
                 message=f"Failed to process images: {str(e)}",
                 details={
@@ -187,7 +172,6 @@ class OCRService:
         engine: Optional[str] = None,
         language: str = "eng"
     ):
-
         engine_name = engine or self.default_engine
         cache_key = f"{engine_name}_{language}"
 
@@ -227,9 +211,6 @@ class OCRService:
             result.get('confidence', 0)
             for result in page_results
         ) / len(page_results) if page_results else 0.0
-
-        if total_chars < 10:
-            self.logger.warning("Very little text found in OCR results")
 
         return {
             "pdf_path": str(pdf_path),

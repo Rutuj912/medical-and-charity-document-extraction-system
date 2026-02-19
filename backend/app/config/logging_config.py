@@ -1,12 +1,22 @@
 import logging
 import sys
 from pathlib import Path
-from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 from pythonjsonlogger import jsonlogger
 from datetime import datetime
 from typing import Optional
 
 from .settings import settings
+
+
+# 🔥 RESERVED KEYS JO LOGRECORD ME ALREADY HOTE HAIN
+RESERVED_LOG_KEYS = {
+    "name", "msg", "args", "levelname", "levelno",
+    "pathname", "filename", "module", "exc_info",
+    "exc_text", "stack_info", "lineno", "funcName",
+    "created", "msecs", "relativeCreated", "thread",
+    "threadName", "processName", "process"
+}
 
 
 class SafeLogger(logging.Logger):
@@ -21,11 +31,21 @@ class SafeLogger(logging.Logger):
         stacklevel=1,
         **kwargs
     ):
-
+        # 🔥 merge kwargs into extra
         if kwargs:
             if extra is None:
                 extra = {}
             extra.update(kwargs)
+
+        # 🔥 PROTECTION: reserved keys rename automatically
+        if extra:
+            safe_extra = {}
+            for key, value in extra.items():
+                if key in RESERVED_LOG_KEYS:
+                    safe_extra[f"extra_{key}"] = value
+                else:
+                    safe_extra[key] = value
+            extra = safe_extra
 
         super()._log(
             level,
@@ -104,7 +124,6 @@ def get_file_handler(log_file: str = "app.log") -> Optional[TimedRotatingFileHan
 
 
 def setup_logging(logger_name: Optional[str] = None) -> logging.Logger:
-
     logging.setLoggerClass(SafeLogger)
 
     logger = logging.getLogger(logger_name)
@@ -160,33 +179,3 @@ def log_debug(message: str, **kwargs):
 
 def log_critical(message: str, **kwargs):
     app_logger.critical(message, extra=kwargs)
-
-
-if __name__ == "__main__":
-    print("Testing Logging Configuration")
-    print("=" * 60)
-
-    app_logger.debug("This is a DEBUG message")
-    app_logger.info("This is an INFO message")
-    app_logger.warning("This is a WARNING message")
-    app_logger.error("This is an ERROR message")
-    app_logger.critical("This is a CRITICAL message")
-
-    print("\n" + "=" * 60)
-
-    log_info(
-        "OCR processing started",
-        task_id="task_001",
-        file_count=5,
-        engine="tesseract"
-    )
-
-    log_error(
-        "OCR processing failed",
-        task_id="task_001",
-        error="File not found",
-        file_path="/path/to/file.pdf"
-    )
-
-    print("\n✓ Logging test completed!")
-    print(f"✓ Log file location: {settings.get_absolute_path(settings.LOGS_DIR) / 'app.log'}")

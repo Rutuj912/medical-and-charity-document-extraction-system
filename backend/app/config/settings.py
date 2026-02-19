@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     ALLOWED_EXTENSIONS: str = "pdf"
 
 
-    DEFAULT_OCR_ENGINE: str = "tesseract"
+    DEFAULT_OCR_ENGINE: str = "easyocr"
     OCR_CONFIDENCE_THRESHOLD: float = 0.5
     OCR_LANGUAGE: str = "eng"
     OCR_PSM_MODE: int = 3
