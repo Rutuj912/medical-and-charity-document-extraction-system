@@ -1,0 +1,616 @@
+{
+    "pdf_path": "uploads\\bill2.png",
+    "is_scanned": true,
+    "processing_method": "ocr_pipeline",
+    "page_count": 1,
+    "total_characters": 714,
+    "total_words": 45,
+    "average_confidence": 84.16,
+    "text": "--- Page 1 ---\nMEDICAL BILLING INVOICE PATIENT INFORMATION PERSCRIBING PHYSICIAN'S INFORMATION Kemba Harris Dr. Alanah Gomez (555) 595-5999 (555) 505-5000 11 Rosewood Drive, 102 Trope Street; Collingwood, NY 33580 New York, NY 45568 Invoice NUMBER DATE INVOICE DUE DATE Amount DUE 12245 07/01/23 07/30/23 S1,745.00 ITEM DESCRIPTION AMOUNT Full Check Up Full body check up S745.00 S1,000.00 Ear & Throat Examination Infection check due to inflammation NOTES SUB TOTAL S745.00 A prescription has been written out for patient; TAX RATE 9% for an acute throat infection. TAX S157.05 TOTAL S1,902.05 Concordia Hill Hospital for more information Or any issues Or concerns, Mi www concordiahillcom email us &t invoices@concordiahill com",
+    "pages": [
+        {
+            "text": "MEDICAL BILLING INVOICE PATIENT INFORMATION PERSCRIBING PHYSICIAN'S INFORMATION Kemba Harris Dr. Alanah Gomez (555) 595-5999 (555) 505-5000 11 Rosewood Drive, 102 Trope Street; Collingwood, NY 33580 New York, NY 45568 Invoice NUMBER DATE INVOICE DUE DATE Amount DUE 12245 07/01/23 07/30/23 S1,745.00 ITEM DESCRIPTION AMOUNT Full Check Up Full body check up S745.00 S1,000.00 Ear & Throat Examination Infection check due to inflammation NOTES SUB TOTAL S745.00 A prescription has been written out for patient; TAX RATE 9% for an acute throat infection. TAX S157.05 TOTAL S1,902.05 Concordia Hill Hospital for more information Or any issues Or concerns, Mi www concordiahillcom email us &t invoices@concordiahill com",
+            "confidence": 84.16,
+            "word_count": 45,
+            "character_count": 714,
+            "words": [
+                {
+                    "text": "MEDICAL BILLING INVOICE",
+                    "confidence": 98.81833841238327,
+                    "bbox": {
+                        "left": 169,
+                        "top": 180,
+                        "width": 1166,
+                        "height": 96
+                    },
+                    "block_num": 0,
+                    "line_num": 0,
+                    "word_num": 0
+                },
+                {
+                    "text": "PATIENT INFORMATION",
+                    "confidence": 86.50446864769744,
+                    "bbox": {
+                        "left": 235,
+                        "top": 400,
+                        "width": 532,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 1,
+                    "word_num": 1
+                },
+                {
+                    "text": "PERSCRIBING PHYSICIAN'S INFORMATION",
+                    "confidence": 70.94942237487342,
+                    "bbox": {
+                        "left": 1346,
+                        "top": 398,
+                        "width": 931,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 2,
+                    "word_num": 2
+                },
+                {
+                    "text": "Kemba Harris",
+                    "confidence": 99.99380389439182,
+                    "bbox": {
+                        "left": 235,
+                        "top": 485,
+                        "width": 297,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 3,
+                    "word_num": 3
+                },
+                {
+                    "text": "Dr. Alanah Gomez",
+                    "confidence": 95.86353398921727,
+                    "bbox": {
+                        "left": 1346,
+                        "top": 488,
+                        "width": 386,
+                        "height": 57
+                    },
+                    "block_num": 0,
+                    "line_num": 4,
+                    "word_num": 4
+                },
+                {
+                    "text": "(555) 595-5999",
+                    "confidence": 88.9578809903638,
+                    "bbox": {
+                        "left": 232,
+                        "top": 549,
+                        "width": 335,
+                        "height": 64
+                    },
+                    "block_num": 0,
+                    "line_num": 5,
+                    "word_num": 5
+                },
+                {
+                    "text": "(555) 505-5000",
+                    "confidence": 53.98152694378236,
+                    "bbox": {
+                        "left": 1343,
+                        "top": 551,
+                        "width": 335,
+                        "height": 62
+                    },
+                    "block_num": 0,
+                    "line_num": 6,
+                    "word_num": 6
+                },
+                {
+                    "text": "11 Rosewood Drive,",
+                    "confidence": 96.8701247537418,
+                    "bbox": {
+                        "left": 237,
+                        "top": 615,
+                        "width": 418,
+                        "height": 61
+                    },
+                    "block_num": 0,
+                    "line_num": 7,
+                    "word_num": 7
+                },
+                {
+                    "text": "102 Trope Street;",
+                    "confidence": 90.17586246293114,
+                    "bbox": {
+                        "left": 1345,
+                        "top": 616,
+                        "width": 371,
+                        "height": 65
+                    },
+                    "block_num": 0,
+                    "line_num": 8,
+                    "word_num": 8
+                },
+                {
+                    "text": "Collingwood, NY 33580",
+                    "confidence": 84.2514739600737,
+                    "bbox": {
+                        "left": 234,
+                        "top": 681,
+                        "width": 500,
+                        "height": 69
+                    },
+                    "block_num": 0,
+                    "line_num": 9,
+                    "word_num": 9
+                },
+                {
+                    "text": "New York, NY 45568",
+                    "confidence": 76.78681382877308,
+                    "bbox": {
+                        "left": 1346,
+                        "top": 684,
+                        "width": 436,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 10,
+                    "word_num": 10
+                },
+                {
+                    "text": "Invoice NUMBER",
+                    "confidence": 55.96415362103324,
+                    "bbox": {
+                        "left": 163,
+                        "top": 949,
+                        "width": 397,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 11,
+                    "word_num": 11
+                },
+                {
+                    "text": "DATE",
+                    "confidence": 99.5619535446167,
+                    "bbox": {
+                        "left": 702,
+                        "top": 947,
+                        "width": 132,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 12,
+                    "word_num": 12
+                },
+                {
+                    "text": "INVOICE DUE DATE",
+                    "confidence": 98.42382014429064,
+                    "bbox": {
+                        "left": 1238,
+                        "top": 947,
+                        "width": 426,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 13,
+                    "word_num": 13
+                },
+                {
+                    "text": "Amount DUE",
+                    "confidence": 99.45512982017067,
+                    "bbox": {
+                        "left": 1839,
+                        "top": 947,
+                        "width": 276,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 14,
+                    "word_num": 14
+                },
+                {
+                    "text": "12245",
+                    "confidence": 94.15755334868231,
+                    "bbox": {
+                        "left": 165,
+                        "top": 1039,
+                        "width": 282,
+                        "height": 92
+                    },
+                    "block_num": 0,
+                    "line_num": 15,
+                    "word_num": 15
+                },
+                {
+                    "text": "07/01/23",
+                    "confidence": 99.57823755959535,
+                    "bbox": {
+                        "left": 698,
+                        "top": 1033,
+                        "width": 410,
+                        "height": 99
+                    },
+                    "block_num": 0,
+                    "line_num": 16,
+                    "word_num": 16
+                },
+                {
+                    "text": "07/30/23",
+                    "confidence": 46.33528621918667,
+                    "bbox": {
+                        "left": 1237,
+                        "top": 1033,
+                        "width": 410,
+                        "height": 99
+                    },
+                    "block_num": 0,
+                    "line_num": 17,
+                    "word_num": 17
+                },
+                {
+                    "text": "S1,745.00",
+                    "confidence": 89.37490872252577,
+                    "bbox": {
+                        "left": 1830,
+                        "top": 1024,
+                        "width": 451,
+                        "height": 116
+                    },
+                    "block_num": 0,
+                    "line_num": 18,
+                    "word_num": 18
+                },
+                {
+                    "text": "ITEM",
+                    "confidence": 99.94243383407593,
+                    "bbox": {
+                        "left": 238,
+                        "top": 1403,
+                        "width": 134,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 19,
+                    "word_num": 19
+                },
+                {
+                    "text": "DESCRIPTION",
+                    "confidence": 99.06193307111988,
+                    "bbox": {
+                        "left": 995,
+                        "top": 1400,
+                        "width": 353,
+                        "height": 61
+                    },
+                    "block_num": 0,
+                    "line_num": 20,
+                    "word_num": 20
+                },
+                {
+                    "text": "AMOUNT",
+                    "confidence": 85.89641651461177,
+                    "bbox": {
+                        "left": 1955,
+                        "top": 1403,
+                        "width": 230,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 21,
+                    "word_num": 21
+                },
+                {
+                    "text": "Full Check Up",
+                    "confidence": 99.87246815525803,
+                    "bbox": {
+                        "left": 237,
+                        "top": 1603,
+                        "width": 299,
+                        "height": 64
+                    },
+                    "block_num": 0,
+                    "line_num": 22,
+                    "word_num": 22
+                },
+                {
+                    "text": "Full body check up",
+                    "confidence": 92.94605621416234,
+                    "bbox": {
+                        "left": 995,
+                        "top": 1603,
+                        "width": 402,
+                        "height": 66
+                    },
+                    "block_num": 0,
+                    "line_num": 23,
+                    "word_num": 23
+                },
+                {
+                    "text": "S745.00",
+                    "confidence": 97.99912333281209,
+                    "bbox": {
+                        "left": 1950,
+                        "top": 1604,
+                        "width": 188,
+                        "height": 57
+                    },
+                    "block_num": 0,
+                    "line_num": 24,
+                    "word_num": 24
+                },
+                {
+                    "text": "S1,000.00",
+                    "confidence": 86.77086193166485,
+                    "bbox": {
+                        "left": 1948,
+                        "top": 1696,
+                        "width": 230,
+                        "height": 67
+                    },
+                    "block_num": 0,
+                    "line_num": 25,
+                    "word_num": 25
+                },
+                {
+                    "text": "Ear & Throat Examination",
+                    "confidence": 71.40234261234322,
+                    "bbox": {
+                        "left": 238,
+                        "top": 1738,
+                        "width": 542,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 26,
+                    "word_num": 26
+                },
+                {
+                    "text": "Infection check due to inflammation",
+                    "confidence": 97.06257399503268,
+                    "bbox": {
+                        "left": 992,
+                        "top": 1734,
+                        "width": 769,
+                        "height": 61
+                    },
+                    "block_num": 0,
+                    "line_num": 27,
+                    "word_num": 27
+                },
+                {
+                    "text": "NOTES",
+                    "confidence": 99.41760562080968,
+                    "bbox": {
+                        "left": 163,
+                        "top": 2354,
+                        "width": 152,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 28,
+                    "word_num": 28
+                },
+                {
+                    "text": "SUB TOTAL",
+                    "confidence": 92.94426393544919,
+                    "bbox": {
+                        "left": 1651,
+                        "top": 2357,
+                        "width": 247,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 29,
+                    "word_num": 29
+                },
+                {
+                    "text": "S745.00",
+                    "confidence": 95.38579054630286,
+                    "bbox": {
+                        "left": 1950,
+                        "top": 2354,
+                        "width": 178,
+                        "height": 57
+                    },
+                    "block_num": 0,
+                    "line_num": 30,
+                    "word_num": 30
+                },
+                {
+                    "text": "A",
+                    "confidence": 99.73281611228799,
+                    "bbox": {
+                        "left": 168,
+                        "top": 2421,
+                        "width": 27,
+                        "height": 35
+                    },
+                    "block_num": 0,
+                    "line_num": 31,
+                    "word_num": 31
+                },
+                {
+                    "text": "prescription has been written out for patient;",
+                    "confidence": 78.9402951994276,
+                    "bbox": {
+                        "left": 198,
+                        "top": 2410,
+                        "width": 880,
+                        "height": 65
+                    },
+                    "block_num": 0,
+                    "line_num": 32,
+                    "word_num": 32
+                },
+                {
+                    "text": "TAX RATE",
+                    "confidence": 91.21084818991501,
+                    "bbox": {
+                        "left": 1684,
+                        "top": 2445,
+                        "width": 214,
+                        "height": 52
+                    },
+                    "block_num": 0,
+                    "line_num": 33,
+                    "word_num": 33
+                },
+                {
+                    "text": "9%",
+                    "confidence": 54.56320954074915,
+                    "bbox": {
+                        "left": 1953,
+                        "top": 2451,
+                        "width": 66,
+                        "height": 45
+                    },
+                    "block_num": 0,
+                    "line_num": 34,
+                    "word_num": 34
+                },
+                {
+                    "text": "for an acute throat infection.",
+                    "confidence": 63.13428522161454,
+                    "bbox": {
+                        "left": 163,
+                        "top": 2476,
+                        "width": 560,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 35,
+                    "word_num": 35
+                },
+                {
+                    "text": "TAX",
+                    "confidence": 99.77958444573176,
+                    "bbox": {
+                        "left": 1804,
+                        "top": 2539,
+                        "width": 93,
+                        "height": 44
+                    },
+                    "block_num": 0,
+                    "line_num": 36,
+                    "word_num": 36
+                },
+                {
+                    "text": "S157.05",
+                    "confidence": 87.46817651056078,
+                    "bbox": {
+                        "left": 1950,
+                        "top": 2532,
+                        "width": 175,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 37,
+                    "word_num": 37
+                },
+                {
+                    "text": "TOTAL",
+                    "confidence": 99.85712774151563,
+                    "bbox": {
+                        "left": 1662,
+                        "top": 2677,
+                        "width": 241,
+                        "height": 77
+                    },
+                    "block_num": 0,
+                    "line_num": 38,
+                    "word_num": 38
+                },
+                {
+                    "text": "S1,902.05",
+                    "confidence": 90.52854290106268,
+                    "bbox": {
+                        "left": 1947,
+                        "top": 2669,
+                        "width": 346,
+                        "height": 91
+                    },
+                    "block_num": 0,
+                    "line_num": 39,
+                    "word_num": 39
+                },
+                {
+                    "text": "Concordia Hill Hospital",
+                    "confidence": 79.60390206370896,
+                    "bbox": {
+                        "left": 366,
+                        "top": 3021,
+                        "width": 669,
+                        "height": 84
+                    },
+                    "block_num": 0,
+                    "line_num": 40,
+                    "word_num": 40
+                },
+                {
+                    "text": "for more information Or any issues Or concerns,",
+                    "confidence": 50.24284302098822,
+                    "bbox": {
+                        "left": 1437,
+                        "top": 3038,
+                        "width": 938,
+                        "height": 54
+                    },
+                    "block_num": 0,
+                    "line_num": 41,
+                    "word_num": 41
+                },
+                {
+                    "text": "Mi",
+                    "confidence": 11.214122691074172,
+                    "bbox": {
+                        "left": 172,
+                        "top": 3033,
+                        "width": 135,
+                        "height": 136
+                    },
+                    "block_num": 0,
+                    "line_num": 42,
+                    "word_num": 42
+                },
+                {
+                    "text": "www concordiahillcom",
+                    "confidence": 98.18111928751436,
+                    "bbox": {
+                        "left": 372,
+                        "top": 3110,
+                        "width": 531,
+                        "height": 57
+                    },
+                    "block_num": 0,
+                    "line_num": 43,
+                    "word_num": 43
+                },
+                {
+                    "text": "email us &t invoices@concordiahill com",
+                    "confidence": 38.224004626360525,
+                    "bbox": {
+                        "left": 1439,
+                        "top": 3097,
+                        "width": 789,
+                        "height": 55
+                    },
+                    "block_num": 0,
+                    "line_num": 44,
+                    "word_num": 44
+                }
+            ],
+            "engine": "EasyOCR",
+            "language": "eng",
+            "metadata": {
+                "gpu": false,
+                "model": "easyocr",
+                "image_size": "2550x3300"
+            },
+            "image_path": "D:\\PythonProject10_Ocr and llm document extraction system\\medical-and-charity-document-extraction-system\\backend\\storage\\processed_images\\processed_bill2_page_0001.png",
+            "page_number": 1
+        }
+    ],
+    "engine": "EasyOCR",
+    "language": "eng"
+}
