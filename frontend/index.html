@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical OCR System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="header-icon">📄</div>
+    <div>
+      <div class="header-title">Medical OCR System</div>
+      <div class="header-sub">Advanced Document Processing</div>
+    </div>
+  </div>
+
+  <div class="status-badge">
+    <div class="status-dot"></div>
+    System Online
+  </div>
+</header>
+
+<main>
+
+  <!-- Upload Section -->
+<div class="upload-section">
+    <h3>Upload Medical Documents</h3>
+
+    <form id="uploadForm">
+        <input type="file" id="fileInput" multiple />
+        <button type="submit">Upload & Process</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+
+  <!-- stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Processed</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-icon blue">📊</div>
+    </div>
+
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Success</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-icon green">✅</div>
+    </div>
+
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Pending</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-icon yellow">⏳</div>
+    </div>
+
+    <div class="stat-card">
+      <div>
+        <div class="stat-label">Errors</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-icon purple">⚠️</div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- upload card -->
+    <div class="card">
+      <div class="card-title">Upload Document</div>
+
+      <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+        <div class="upload-title">Click to upload file</div>
+        <div class="upload-sub">PDF / Image supported</div>
+      </div>
+
+      <input type="file" id="file-input">
+
+      <div class="process-btn-wrap">
+        <button class="btn btn-primary btn-full" onclick="uploadFile()">Process Document</button>
+      </div>
+    </div>
+
+    <!-- right panel -->
+    <div class="card">
+
+      <!-- empty -->
+      <div id="panel-empty" class="empty-state">
+        <div class="empty-state-title">No Document Yet</div>
+        <div class="empty-state-desc">Upload a document to see extracted OCR text</div>
+      </div>
+
+      <!-- loading -->
+      <div id="panel-loading" class="loading-state">
+        <div class="spinner"></div>
+        <div class="loading-text">Processing...</div>
+      </div>
+
+      <!-- result -->
+      <div id="panel-results">
+        <div class="text-output">
+          <pre id="result-text"></pre>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>

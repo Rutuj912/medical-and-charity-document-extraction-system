@@ -6,7 +6,7 @@ from backend.app.config import settings, get_logger
 from backend.app.api.routes import ocr_routes, health_routes
 from backend.app.middleware.error_handler import add_exception_handlers
 from backend.app.middleware.request_logger import RequestLoggingMiddleware
-
+from fastapi.middleware.cors import CORSMiddleware
 
 logger = get_logger(__name__)
 
@@ -28,6 +28,13 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.add_middleware(
     CORSMiddleware,
